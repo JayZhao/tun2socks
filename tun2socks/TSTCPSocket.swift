@@ -89,12 +89,18 @@ struct SocketDict {
     }
     
     static func newKey() -> Int {
-        var key = arc4random()
-        while let _ = socketDict[Int(key)] {
-            key = arc4random()
+        var key = SocketDict.randomInt()
+        while let _ = socketDict[key] {
+            key = SocketDict.randomInt()
         }
         
-        return Int(key)
+        return key
+    }
+    
+    private static func randomInt() -> Int {
+        var r: Int = 0
+        arc4random_buf(&r, MemoryLayout<Int>.size)
+        return r
     }
 }
 
